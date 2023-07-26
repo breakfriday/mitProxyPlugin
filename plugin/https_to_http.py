@@ -13,5 +13,14 @@ def request(flow: http.HTTPFlow) -> None:
             flow.request.scheme = "http"
             ctx.log.info(f"Converted HTTPS to HTTP for request: {flow.request.url}")
 
+def response(flow: http.HTTPFlow):
+    # Only process responses to dev.local.com:3000
+    if flow.request.url == "http://dev.local.com:3000" or flow.request.url == "https://dev.local.com:3000":
+        # Add headers to response
+        flow.response.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
+        flow.response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+        ctx.log.info(f"Added COEP and COOP headers to response: {flow.request.url}")
+
+
 def error(flow: http.HTTPFlow):
     ctx.log.error(f"An error occurred with the following request: {flow.request.url}")
