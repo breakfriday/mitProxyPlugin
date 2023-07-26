@@ -15,7 +15,7 @@ def request(flow: http.HTTPFlow) -> None:
 
 def response(flow: http.HTTPFlow):
     # Only process responses to dev.local.com:3000
-    if flow.request.url == "http://dev.local.com:3000" or flow.request.url == "https://dev.local.com:3000":
+    if flow.request.url == "http://dev.local.com:3000/" or flow.request.url == "https://dev.local.com:3000/":
         # Add headers to response
         flow.response.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
         flow.response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
